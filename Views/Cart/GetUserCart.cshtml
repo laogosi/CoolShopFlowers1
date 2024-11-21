@@ -1,0 +1,117 @@
+﻿@model ShoppingCart
+
+@{
+    ViewData["Title"] = "Your Shopping Cart";
+    Layout = "_Layout";  // Використовуємо стандартний layout
+}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #e8f5e9; /* Світло-зелений фон */
+        }
+        .cart-header {
+            background-color: #388e3c; /* Темно-зелений фон для заголовка */
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .cart-table {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .btn-green {
+            background-color: #388e3c;
+            color: white;
+            border: none;
+        }
+        .btn-green:hover {
+            background-color: #66bb6a;
+        }
+        .btn-remove {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        .btn-remove:hover {
+            background-color: #e57373;
+        }
+        .checkout-btn {
+            background-color: #81c784;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .checkout-btn:hover {
+            background-color: #66bb6a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cart-header">
+            <h2>@Localizer["ShoPCart"]</h2>
+        </div>
+
+        @if (Model == null || !Model.CartDetails.Any())
+        {
+            <div class="alert alert-warning mt-4">
+                Your cart is empty.
+            </div>
+        }
+        else
+        {
+            <div class="cart-table">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Квіти</th>
+                            <th>Кількість</th>
+                            <th>Ціна</th>
+                            <th>Загалом коштів</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartDetails)
+                        {
+                            <tr>
+                                <td>@item.Flower.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("C")</td>
+                                <td>@(item.Quantity * item.Price)</td>
+                                <td>
+                                    <form asp-action="RemoveItem" asp-route-id="@item.FlowerId" method="post">
+                                        <button type="submit" class="btn btn-remove">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <form asp-action="Checkout" method="post">
+                    <button type="submit" class="btn checkout-btn">Proceed to Checkout</button>
+                </form>
+            </div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperj/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

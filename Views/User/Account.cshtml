@@ -1,0 +1,202 @@
+﻿@model CoolShopFlowers.Models.ViewModels.UserViewModel
+@using System.Web
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+}
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: #e9f7ef; /* Легкий зелений фон */
+            font-family: Arial, sans-serif;
+        }
+
+        .container1 {
+            display: flex;
+            justify-content: center; /* Центрування контенту по горизонталі */
+            align-items: center; /* Центрування контенту по вертикалі */
+            min-height: 100vh; /* Мінімальна висота для повного екрану */
+        }
+
+        .card {
+            width: 60%; /* Ширина картки */
+            margin: 20px;
+            padding: 20px;
+            background-color: #ffffff; /* Білий фон */
+            border-radius: 8px; /* Заокруглені кути */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тінь для картки */
+            border: 1px solid #28a745; /* Зелені рамки */
+        }
+
+        .user-image {
+            max-width: 150px; /* Обмеження ширини зображення */
+            height: auto;
+            border-radius: 50%; /* Кругла форма зображення */
+            border: 3px solid #28a745; /* Зелена обводка для зображення */
+        }
+
+        .profile-info {
+            margin-top: 20px;
+        }
+
+        h4.card-title {
+            color: #28a745; /* Зелені заголовки */
+        }
+
+        .btn-secondary {
+            background-color: #28a745; /* Зелені кнопки */
+            color: white;
+            border: none;
+        }
+
+            .btn-secondary:hover {
+                background-color: #218838; /* Темно-зелений колір при наведенні */
+            }
+
+        .form-group label {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .form-group input, .form-group select {
+            border-color: #28a745;
+        }
+
+            .form-group input:focus, .form-group select:focus {
+                border-color: #218838;
+                box-shadow: 0 0 5px rgba(56, 142, 60, 0.5);
+            }
+
+        .text-alert {
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container1">
+        <div class="card">
+            <div class="text-center">
+            </div>
+
+            <div class="profile-info">
+                <h4 class="card-title text-center">About</h4>
+                <hr />
+
+                <dl class="row">
+                    <dt class="col-sm-3">@Localizer["Name"]</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+                            
+                    <dt class="col-sm-3">Age</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Age)</dd>
+
+                    <dt class="col-sm-3">Birthday</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.FormattedBirthDay)</dd>
+
+                    @if (Model.IsBanned == true)
+                    {
+                        <dt class="col-sm-3">IsBan</dt>
+                        <dd class="col-sm-9">Have</dd>
+                    }
+
+                    @if (Model.IsMuted == true)
+                    {
+                        <dt class="col-sm-3">IsMute</dt>
+                        <dd class="col-sm-9">Have</dd>
+                    }
+
+                    <dt class="col-sm-3">Стать:</dt>
+                    <dd class="col-sm-9">
+                        @switch (Model.Sex)
+                        {
+                            case "Male":
+                                <p>Man</p>
+                                break;
+                            case "Female":
+                                <p>Woman</p>
+                                break;
+                            default:
+                                <p>_______</p>
+                                break;
+                        }
+                    </dd>
+
+                    <div class="d-flex justify-content-between">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            if (UserManager.GetUserId(User) == Model.Id)
+                            {
+                                        <form clas="form-button" asp-controller="User" asp-action="Edit" method="get" asp-route-id="@Model.Id">
+                                    <button class="form-button btn btn-secondary ml-2">
+                                        Edit
+                                    </button>
+                                </form>
+                                <form clas="form-button" asp-controller="User" asp-action="ChangePassword" method="get" asp-route-id="@Model.Id">
+                                    <button class="form-button btn btn-secondary ml-2">
+                                        Change Password
+                                    </button>
+                                </form>
+                                <form clas="form-button" asp-controller="User" asp-action="UserList" method="get">
+                                    <button class="form-button btn btn-secondary ml-2">
+                                        Search
+                                    </button>
+                                </form>
+                            }
+
+                            @if (User.IsInRole("Admin") && UserManager.GetUserId(User) != Model.Id)
+                            {
+                                <div class="form-group">
+                                    @if (Model.IsBanned == false)
+                                    {
+                                        <form clas="form-button" asp-action="Ban" asp-route-id="@Model.Id">
+                                            <button class="form-button btn btn-secondary ml-2">
+                                                Ban
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form clas="form-button" asp-action="UnBan" asp-route-id="@Model.Id">
+                                            <button class="form-button btn btn-secondary ml-2">
+                                                Unban
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            }
+
+                            @if (User.IsInRole("Admin") && UserManager.GetUserId(User) != Model.Id)
+                            {
+                                <div class="form-group">
+                                    @if (Model.IsMuted == false)
+                                    {
+                                        <form clas="form-button" asp-action="Mute" asp-route-id="@Model.Id">
+                                            <button class="form-button btn btn-secondary ml-2">
+                                                Mute
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form clas="form-button" asp-action="UnMute" asp-route-id="@Model.Id">
+                                            <button class="form-button btn btn-secondary ml-2">
+                                                Unmute
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>

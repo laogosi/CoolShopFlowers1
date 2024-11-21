@@ -1,0 +1,105 @@
+﻿@model CoolShopFlowers.Models.DTO.Login
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.13/dist/jquery.validate.unobtrusive.min.js"></script>
+    <style>
+        body {
+            background-color: #e9f7ef;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #28a745;
+        }
+
+            .login-container h2 {
+                color: #28a745;
+                margin-bottom: 20px;
+            }
+
+        .btn-login {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+            .btn-login:hover {
+                background-color: #218838;
+            }
+
+        .text-alert {
+            color: #28a745;
+        }
+
+        .msg {
+            margin-top: 10px;
+            color: #dc3545; /* Червоний для помилок */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h2 class="text-center">Login</h2>
+            <form asp-action="Login" method="post" novalidate>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input type="text" class="form-control" asp-for="Email" placeholder="Enter your email" />
+                    <span class="msg" asp-validation-for="Email"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Enter your password" />
+                    <span class="msg" asp-validation-for="Password"></span>
+                </div>
+
+                @if (TempData["msg"] != null)
+                {
+                    <div class="alert alert-danger mt-3">
+                        @TempData["msg"]
+                    </div>
+                }
+
+                <button type="submit" class="btn btn-login btn-block mt-4">Login</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <a class="text-alert" href="/User/Registr">Not a user? Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Enable client-side validation
+            $("form").validate({
+                errorClass: "text-danger",
+                validClass: "is-valid",
+                errorPlacement: function (error, element) {
+                    error.appendTo(element.siblings(".msg"));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

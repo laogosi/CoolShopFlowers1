@@ -1,0 +1,99 @@
+﻿@model CoolShopFlowers.Models.Flower
+
+@{
+    ViewData["Title"] = "Створити квітку";
+}
+
+<!-- CSS для додаткового стилю -->
+<style>
+    .form-container {
+        max-width: 500px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+    }
+
+    h1 {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control, .form-select {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .btn-lg {
+        padding: 14px;
+        font-size: 18px;
+    }
+
+    .text-danger {
+        font-size: 14px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Створити квітку</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LAB1.styles.css" asp-append-version="true" />
+</head>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form class="custom-box" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Поле Назва квітки -->
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label fs-5">Назва квітки</label>
+                <input asp-for="Name" class="form-control" placeholder="Введіть назву квітки" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Поле Ціна -->
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="form-label fs-5">Ціна (грн)</label>
+                <input asp-for="Price" class="form-control" placeholder="Введіть ціну" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <!-- Поле Опис -->
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label fs-5">Опис</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Опис квітки"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Поле Категорія -->
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="form-label fs-5">Категорія</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="@(ViewData["CategoryId"] as SelectList)">
+                    <option value="">Оберіть категорію</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="FlowerType" class="form-label fs-5">Тип квітки</label>
+                <select asp-for="FlowerType" class="form-select" asp-items="@(ViewData["FlowerType"] as SelectList)">
+                    <option value="">Оберіть тип квітки</option>
+                </select>
+                <span asp-validation-for="FlowerType" class="text-danger"></span>
+            </div>
+
+            <!-- Кнопки -->
+            <div class="d-flex justify-content-between mt-3">
+                <button type="submit" class="btn btn-success">Створити</button>
+                <a asp-action="Index" class="btn btn-secondary">Повернутись до списку</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @* Якщо потрібно, підключіть додаткові скрипти *@
+}

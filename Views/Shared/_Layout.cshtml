@@ -1,0 +1,108 @@
+﻿@using System.Drawing
+@using Microsoft.AspNetCore.Identity;
+@using CoolShopFlowers.Models.DTO
+@using CoolShopFlowers.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@{
+    ViewData["Title"] = "Cool Shop Flowers";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            background-color: #f0f4c3; /* Світло-зелений фон для всього сайту */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #388e3c; /* Темно-зелений фон для заголовка */
+            color: white; /* Білий текст */
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #2e7d32; /* Зелений фон для навігації */
+            padding: 15px;
+            text-align: center;
+        }
+
+            nav a {
+                color: white; /* Білий текст для посилань навігації */
+                padding: 15px;
+                text-decoration: none;
+            }
+
+                nav a:hover {
+                    background-color: #66bb6a; /* Світліший зелений на ховер */
+                }
+
+        .content {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #1b5e20; /* Темно-зелений фон футера */
+            color: white; /* Білий текст у футері */
+            text-align: center;
+            padding: 10px;
+            position: relative; /* Відносне позиціонування футера */
+            bottom: 0; /* Прикріпити футер донизу */
+            width: 100%; /* Ширина футера на всю сторінку */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cool Shop Flowers</h1>
+        <p>@Localizer["Urbestshop"]</p>
+    </header>
+
+    <nav>
+        <a href="@Url.Action("Index", "Home")">@Localizer["Main"]</a>
+        <a href="https://forkids.org.ua/wp-content/uploads/2024/05/kartynka-vsim-kotykam-garnogo-dnya.webp">Контакти</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a href="@Url.Action("GetUserCart", "Cart")" class="cart-button">@Localizer["Cart"]</a> <!-- Кнопка кошика -->
+            <a href="/User/Account/@UserManager.GetUserId(User)">@Localizer["Profile"]</a>
+            <a href="/User/Logout">@Localizer["Exit"]</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Admin", "Home")">@Localizer["AdminPage"]</a> <!-- Посилання на адмінку -->
+            }
+        }
+        else
+        {
+            <a href="/User/Login">@Localizer["Login"]</a>
+            <a href="/User/Registr">@Localizer["Registr"]</a>
+        }
+        <ul>
+            <li>
+                @await Html.PartialAsync("_LanguagePartial")
+            </li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        @RenderBody() <!-- Тут буде відображатися вміст кожної окремої сторінки -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Cool Shop Flowers. @Localizer["AllR"].</p>
+        <p><a href="#" style="color: white; text-decoration: underline;">@Localizer["Privacy"]</a></p>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

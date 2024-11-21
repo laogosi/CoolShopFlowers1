@@ -1,0 +1,29 @@
+﻿@model Order
+
+<h2>Order Confirmation</h2>
+<p>Thank you for your purchase, @Model.User.Name!</p>
+<p>Order ID: @Model.OrderId</p>
+<p>Total Amount: @Model.TotalAmount.ToString("C")</p>
+
+<h3>Order Details</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Flower</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model.OrderDetails)
+        {
+            <tr>
+                <td>@detail.Flower.Name</td>
+                <td>@detail.Quantity</td>
+                <td>@detail.Price.ToString("C")</td>
+                <td>@(detail.Quantity * detail.Price).ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>

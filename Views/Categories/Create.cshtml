@@ -1,0 +1,68 @@
+﻿@model CoolShopFlowers.Models.Category
+
+@{
+    ViewData["Title"] = "Створити категорію";
+}
+
+<!-- CSS для додаткового стилю -->
+<style>
+    .form-container {
+        max-width: 500px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+    }
+
+    h1 {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control, .form-select {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .btn-lg {
+        padding: 14px;
+        font-size: 18px;
+    }
+
+    .text-danger {
+        font-size: 14px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LAB1.styles.css" asp-append-version="true" />
+</head>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form asp-action="Create" class="form-container">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Поле Назва категорії -->
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label fs-5">Назва категорії</label>
+                <input asp-for="Name" class="form-control" placeholder="Введіть назву категорії" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Кнопки -->
+            <div class="d-flex justify-content-between mt-3">
+                <button type="submit" class="btn btn-success btn-lg">Створити</button>
+                <a asp-action="Index" class="btn btn-secondary btn-lg">Повернутись до списку</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

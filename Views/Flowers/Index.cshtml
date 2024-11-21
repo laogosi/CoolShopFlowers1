@@ -1,0 +1,111 @@
+﻿@model IEnumerable<CoolShopFlowers.Models.Flower> 
+@{
+    ViewData["Title"] = "Список квітів";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.13/dist/jquery.validate.unobtrusive.min.js"></script>
+    <style>
+        body {
+            background-color: #e9f7ef;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .table-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #28a745;
+        }
+
+        .table-container h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-create {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-create:hover {
+            background-color: #218838;
+        }
+
+        .table th, .table td {
+            text-align: center;
+        }
+
+        .text-alert {
+            color: #28a745;
+        }
+
+        .msg {
+            margin-top: 10px;
+            color: #dc3545; /* Червоний для помилок */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table-container">
+            <h2>Список квітів</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Назва</th>
+                        <th>Ціна</th>
+                        <th>Опис</th>
+                        <th>Тип збірки</th>
+                        <th>Категорія</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flower in Model)
+                    {
+                        <tr>
+                            <td>@flower.FlowerId</td>
+                            <td>@flower.Name</td>
+                            <td>@flower.Price</td>
+                            <td>@flower.Description</td>
+                            <td>@flower.FlowerType</td>
+                            <td>@flower.Category?.Name</td>
+                            <td>
+                                <a href="@Url.Action("Edit", new { id = flower.FlowerId })" class="btn btn-warning btn-sm">Редагувати</a>
+                                <a href="@Url.Action("Delete", new { id = flower.FlowerId })" class="btn btn-danger btn-sm">Видалити</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between mt-3">
+                <a href="@Url.Action("Create")" class="btn btn-create">Створити нову квітку</a>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Повернутись до головної</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

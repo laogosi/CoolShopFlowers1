@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Admin Page";
+}
+
+<head>
+    <style>
+        html, body {
+            height: 100%; /* Додаємо висоту для body */
+            display: flex; /* Включаємо flexbox для body */
+            flex-direction: column; /* Встановлюємо вертикальну орієнтацію */
+            margin: 0; /* Скидаємо стандартні відступи */
+        }
+
+        body {
+            background-color: #66bb6a; /* Зелений фон */
+            color: black; /* Чорний текст */
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Три стовпці */
+            gap: 20px;
+            flex: 1; /* Додаємо цю властивість, щоб контейнер займав доступний простір */
+        }
+
+        .button {
+            background-color: white; /* Білий фон кнопки */
+            color: black; /* Чорний текст кнопки */
+            padding: 20px;
+            border: none;
+            border-radius: 10px; /* Заокруглені кути */
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+            .button:hover {
+                background-color: #e0e0e0; /* Світліше при наведенні */
+            }
+
+        .footer {
+            background-color: #333; /* Темний фон для футера */
+            color: white; /* Білий текст */
+            text-align: center; /* Вирівнювання тексту по центру */
+            padding: 10px; /* Внутрішній відступ */
+        }
+    </style>
+</head>
+
+<h1>Сторінка адміністратора</h1>
+
+<div class="container">
+    <a href="@Url.Action("Create", "Flowers")" class="button">Додати квітку</a>
+    <a href="@Url.Action("Index", "Flowers")" class="button">Список усіх квітів</a>
+
+    <a href="#" class="button">Додати замовлення</a>
+    <a href="#" class="button">Список усіх замовлень</a>
+
+    <a href="@Url.Action("Create", "Categories")" class="button">Додати категорію</a>
+    <a href="@Url.Action("Index", "Categories")" class="button">Список усіх категорій</a>
+</div>

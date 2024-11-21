@@ -1,0 +1,141 @@
+﻿@using CoolShopFlowers.Models.ViewModels
+@model List<ListUserViewModel>
+
+@{
+    ViewBag.Title = "Список користувачів";
+}
+
+<style>
+    /* Загальний контейнер для списку користувачів */
+    .user-list-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #e8f5e9; /* Легкий зелений фон */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px; /* Відступ від верхньої частини */
+    }
+
+    /* Пошуковий блок */
+    .search-box input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #81c784; /* Світло-зелене обведення */
+        border-radius: 5px;
+        background-color: #a5d6a7; /* Легкий зелений фон для поля */
+        color: #333; /* Темний текст */
+        max-width: 600px;
+    }
+
+    .search-box button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background-color: #388e3c; /* Темно-зелена кнопка */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .search-box button:hover {
+            background-color: #66bb6a; /* Світліший зелений при наведенні */
+        }
+
+    /* Таблиця користувачів */
+    .user-table {
+        width: 100%;
+        max-width: 600px;
+        margin-top: 20px;
+        background-color: #4caf50; /* Зелений фон таблиці */
+        border-radius: 10px;
+        color: #fff; /* Білий текст */
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .user-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-table th, .user-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .user-table th {
+            background-color: #388e3c; /* Темніший зелений для заголовків */
+        }
+
+        .user-table tr:nth-child(even) {
+            background-color: #66bb6a; /* Світліший зелений для чередування рядків */
+        }
+
+        .user-table tr:nth-child(odd) {
+            background-color: #81c784; /* Легкий зелений для непарних рядків */
+        }
+
+    /* Повідомлення про відсутність користувачів */
+    .no-users {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #388e3c; /* Темно-зелений текст для повідомлення */
+    }
+</style>
+
+<div class="user-list-container">
+    <!-- Пошуковий блок -->
+    <div class="search-box">
+        <form asp-action="UserListSearch" method="post">
+            <input type="text" name="searchString" placeholder="Пошук за ім'ям, юзернеймом або поштою..." />
+            <button type="submit">Шукати</button>
+        </form>
+    </div>
+
+    <!-- Таблиця користувачів -->
+    <div class="user-table">
+        @if (Model != null && Model.Count > 0)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ім'я</th>
+                        <th>Юзернейм</th>
+                        <th>Пошта</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Name</td>
+                            <td>
+                                <a href="/User/Account/@user.Id" class="user-link">@user.UserName</a>
+                            </td>
+                            <td>@user.Email</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="no-users">
+                @if (ViewBag.Message != null)
+                {
+                    <p>@ViewBag.Message</p>
+                }
+                else
+                {
+                    <p>На разі на сайті ніхто ще не реєструвався</p>
+                }
+            </div>
+        }
+    </div>
+</div>
+

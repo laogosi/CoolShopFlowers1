@@ -1,0 +1,114 @@
+﻿@model CoolShopFlowers.Models.Flower
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1 class="page-title">@Model.Name</h1>
+
+<div class="flower-details">
+    <div class="flower-image">
+        <div class="placeholder-square"></div> <!-- Сірий квадрат для фото -->
+    </div>
+
+    <table class="flower-info">
+        <tr>
+            <td class="label">Ціна:</td>
+            <td class="value">@Model.Price грн</td>
+        </tr>
+        <tr>
+            <td class="label">Опис:</td>
+            <td class="value">@Model.Description</td>
+        </tr>
+        <tr>
+            <td class="label">Категорія:</td>
+            <td class="value">@Model.Category?.Name</td>
+        </tr>
+    </table>
+</div>
+
+<div class="button-group">
+    <form asp-controller="Cart" asp-action="AddItem" method="post">
+        <input type="hidden" name="Id" value="@Model.FlowerId" /> <!-- ID квітки -->
+        <input type="number" name="qty" value="1" min="1" /> <!-- Кількість -->
+        <button type="submit" class="btn order-button">Додати до кошика</button>
+    </form>
+</div>
+
+<div id="message" style="display:none; color: green; font-weight: bold; text-align: center;">
+    Квітка успішно додана до кошика!
+</div>
+
+<style>
+    .page-title {
+        text-align: center;
+        color: #388e3c;
+        margin-bottom: 20px;
+        font-size: 2rem; /* Збільшений розмір шрифту заголовка */
+    }
+
+    .flower-details {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: left; /* Вирівнювання тексту вліво */
+    }
+
+    .flower-image {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .placeholder-square {
+        width: 100%; /* Ширина квадрата */
+        height: 200px; /* Висота квадрата */
+        background-color: #e0e0e0; /* Світло-сірий фон */
+        border: 2px dashed #388e3c; /* Дашена рамка */
+        border-radius: 10px; /* Закруглені кути */
+    }
+
+    .flower-info {
+        width: 100%; /* Ширина таблиці */
+        border-collapse: collapse; /* Злиття рамок */
+        font-size: 1.25rem; /* Збільшений розмір шрифту для таблиці */
+    }
+
+        .flower-info .label {
+            font-weight: bold; /* Виділення заголовків */
+            width: 30%; /* Ширина стовпця заголовка */
+        }
+
+        .flower-info .value {
+            width: 70%; /* Ширина стовпця значення */
+        }
+
+    .order-button {
+        width: 100%;
+        background-color: #a5d6a7; /* Світло-зелений фон */
+        color: white; /* Колір тексту */
+        border: none; /* Без рамки */
+        border-radius: 5px; /* Закруглені кути */
+        padding: 10px; /* Внутрішній відступ */
+        font-size: 1.25rem; /* Збільшений розмір шрифту */
+        cursor: pointer; /* Зміна курсору на pointer */
+        transition: background-color 0.3s, transform 0.2s; /* Анімація при наведенні */
+    }
+
+        .order-button:hover {
+            background-color: #81c784; /* Темніший зелений при наведенні */
+            transform: scale(1.05); /* Легке збільшення кнопки */
+        }
+
+    .button-group {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #message {
+        margin-top: 20px;
+    }
+</style>

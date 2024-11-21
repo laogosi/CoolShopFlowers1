@@ -1,0 +1,44 @@
+﻿@model CoolShopFlowers.Models.ViewModels.BanUserViewModel
+
+@{
+}
+
+
+<style>
+    .styled-form {
+        background-color: rgba(0, 0, 0, 0.8);
+        border: 2px solid wheat;
+        border-radius: 10px;
+        padding: 20px;
+        width: 300px; /* Задайте ширину форми за потреби */
+        margin: 0 auto; /* Вирівнюйте по центру */
+    }
+
+        .styled-form label, .styled-form p {
+            color: wheat;
+        }
+
+    .btn-danger {
+        background-color: rgba(0, 0, 255, 0.8);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .btn-danger:hover {
+            background-color: blue;
+        }
+</style>
+
+<p></p>
+
+<form asp-action="UnBan" asp-route-id="@Model.id" method="post" class="styled-form">
+    <div class="form-group">
+        <label>Confirm</label>
+        <p>Confirm:/?</p>
+    </div>
+
+    <button type="submit" class="btn btn-danger">UnBan</button>
+</form>
